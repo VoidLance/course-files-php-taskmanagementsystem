@@ -1,0 +1,240 @@
+/* Theme tokens: change these to re-skin the whole app quickly. */
+:root {
+    --bg: #f3efe6;
+    --card: #fffcf7;
+    --ink: #172220;
+    --accent: #2f6f80;
+    --accent-2: #cf5c36;
+    --line: #d7cfc1;
+}
+
+/* Base reset-ish bits and app shell. */
+* {
+    box-sizing: border-box;
+}
+
+[v-cloak] {
+    display: none;
+}
+
+body {
+    margin: 0;
+    font-family: "Space Grotesk", "Segoe UI", sans-serif;
+    color: var(--ink);
+    background:
+        radial-gradient(circle at 15% 20%, rgba(207, 92, 54, 0.12), transparent 40%),
+        radial-gradient(circle at 80% 10%, rgba(47, 111, 128, 0.16), transparent 45%),
+        var(--bg);
+    min-height: 100vh;
+    padding: 1rem;
+}
+
+#app {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.hero {
+    text-align: center;
+    margin-bottom: 1rem;
+    animation: rise 420ms ease-out;
+}
+
+.hero h1 {
+    margin: 0;
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+}
+
+.hero p {
+    margin: 0.5rem 0 0;
+    color: #44504d;
+}
+
+/* Reusable card layout + forms/buttons. */
+.card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 10px 28px rgba(24, 28, 26, 0.06);
+}
+
+.auth-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+input,
+select,
+button {
+    width: 100%;
+    margin-top: 0.4rem;
+    padding: 0.58rem 0.7rem;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    font: inherit;
+}
+
+button {
+    background: var(--accent);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: transform 120ms ease, opacity 120ms ease;
+}
+
+button:hover {
+    transform: translateY(-1px);
+    opacity: 0.92;
+}
+
+/* Toolbar/forms share responsive grid behavior. */
+.toolbar,
+.project-form,
+.task-form,
+.search-grid {
+    display: grid;
+    gap: 0.7rem;
+    align-items: center;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+
+.badge {
+    margin-left: 0.5rem;
+    background: #e8f1f4;
+    color: var(--accent);
+    border-radius: 999px;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.82rem;
+}
+
+.project-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.8rem;
+}
+
+.project-list button {
+    width: auto;
+    background: #e7edf0;
+    color: #24312f;
+}
+
+.project-list button.active {
+    background: var(--accent-2);
+    color: white;
+}
+
+/* Board styles (columns + cards). */
+.columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 0.75rem;
+}
+
+.column {
+    background: #fff7ec;
+    border-radius: 10px;
+    border: 1px dashed #d9bca6;
+    padding: 0.6rem;
+}
+
+.task-dropzone {
+    min-height: 110px;
+}
+
+.task-card {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 0.6rem;
+    margin-bottom: 0.6rem;
+}
+
+.task-actions {
+    margin-top: 0.5rem;
+    display: flex;
+    gap: 0.4rem;
+}
+
+.task-actions button {
+    width: auto;
+}
+
+/* Dashboard stat boxes. */
+.stats-grid {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+}
+
+.stats-grid article {
+    background: #f8f4ea;
+    border-radius: 10px;
+    padding: 0.7rem;
+}
+
+.stats-grid h3,
+.stats-grid p {
+    margin: 0;
+}
+
+.chart-wrap {
+    position: relative;
+    height: 240px;
+    margin-top: 0.75rem;
+}
+
+.chart-wrap canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.task-detail-grid {
+    display: grid;
+    gap: 0.8rem;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.comment-list,
+.activity-list {
+    max-height: 150px;
+    overflow: auto;
+    padding-left: 1rem;
+}
+
+/* Sticky feedback message at bottom of viewport. */
+.message {
+    position: sticky;
+    bottom: 0.5rem;
+    background: #17313a;
+    color: white;
+    padding: 0.75rem;
+    border-radius: 10px;
+}
+
+/* Tiny entrance animation so the page feels less dead on load. */
+@keyframes rise {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile tightening. */
+@media (max-width: 640px) {
+    body {
+        padding: 0.55rem;
+    }
+
+    .card {
+        padding: 0.75rem;
+    }
+}
