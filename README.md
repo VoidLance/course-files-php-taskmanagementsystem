@@ -1,81 +1,70 @@
-# Task Management System (Project 3)
+# Task Management System
 
-A beginner-friendly MVC + REST task manager in PHP, inspired by Trello/Asana-lite.
+A lightweight PHP task and project manager with a Vue-powered Kanban board. Organize work into projects, track task status and due dates, collaborate with comments, and monitor progress from a dashboard.
 
-## Included Features
+## Features
 
-- User registration with email verification token flow
-- Login with JWT authentication
-- Password reset with token flow
-- Profile endpoint (name/timezone/avatar URL)
-- Roles: `admin`, `project_manager`, `team_member`
-- Project CRUD basics (create, update, archive)
-- Invite users into projects with project role
-- Task CRUD + move between columns (drag and drop)
-- Task statuses, priorities, due dates, labels, estimate/tracked minutes
-- Comments + `@mentions` parsing
-- Task activity log
-- Search/filter tasks
-- Dashboard stats + completion chart (Chart.js)
-- CSV export for overdue tasks
-- Responsive UI using Vue 3 + SortableJS
+- Register and log in with email verification and password reset flows
+- Create and manage projects, invite team members, and assign project roles
+- Organize tasks on a drag-and-drop board, with priorities, statuses, due dates, labels, and time tracking
+- Add task comments and view task activity
+- Search and filter tasks, review dashboard statistics, and export overdue tasks as CSV
+- Use a responsive interface backed by a PHP JSON API
 
-## What Is Stubbed / Simplified
+This is a starter project, not a production-ready hosted service. Verification and password-reset messages are written to `storage/logs/mail.log` rather than sent by email. The frontend loads Vue, SortableJS, and Chart.js from CDNs.
 
-- Email is simulated by writing tokens to `storage/logs/mail.log`
-- Attachments, WebSocket real-time, external calendar sync, PDF export, offline sync are planned but not fully implemented in this starter
-- This starter uses a hardcoded config array. If you want `.env` loading, add a config loader as a follow-up
+## Requirements
 
-## Folder Structure
+- PHP 8.0 or later with PDO and the PDO MySQL driver enabled
+- MySQL or MariaDB
+- A modern browser with internet access to load the frontend libraries from their CDNs
 
-- `app/Controllers`: API controllers
-- `app/Models`: DB data access
-- `app/Services`: JWT, mail logging, activity helper
-- `app/Core`: Router + DB connection
-- `public/index.php`: Vue frontend shell
-- `public/api.php`: API gateway + routes
-- `database/schema.sql`: MySQL schema
+No Composer packages or automated test commands are configured in this repository.
 
-## Setup
+## Get started
 
-1. Create tables in the existing `ecommerce` database (prefixed with `tms_`):
+1. Clone the repository and enter its directory:
 
-```bash
-mariadb -h localhost -u ecom_user -p'EcomPass2024' -D ecommerce < database/schema.sql
-```
+   ```bash
+   git clone https://github.com/VoidLance/course-files-php-taskmanagementsystem.git
+   cd course-files-php-taskmanagementsystem
+   ```
 
-2. Adjust DB credentials in `config/app.php` if your local setup differs.
+2. Create a database and import the schema:
 
-3. Run local PHP server from workspace root:
+   ```bash
+   mysql -u YOUR_DB_USER -p -e "CREATE DATABASE task_management CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+   mysql -u YOUR_DB_USER -p task_management < database/schema.sql
+   ```
 
-```bash
-php -S localhost:3000 -t .
-```
+   The schema creates tables with the `tms_` prefix.
 
-4. Open:
+3. Edit [`config/app.php`](config/app.php) with your database name, user, password, and host. Change the JWT secret to a unique value. The checked-in `.env.example` is a reference only; the application currently reads settings from `config/app.php`, not from environment variables.
 
-- UI: `http://localhost:3000/TaskManagementSystem/public/index.php`
-- API base: `http://localhost:3000/TaskManagementSystem/public/api.php/api/v1`
+4. Ensure the PHP process can write to `storage/logs/`, then start the local server from the repository root:
 
-## Test Flow
+   ```bash
+   php -S 127.0.0.1:8000 -t public
+   ```
 
-1. Register a user.
-2. Open `storage/logs/mail.log` and copy verification token.
-3. Verify email.
-4. Login.
-5. Create project.
-6. Create/move tasks.
-7. Open task details and add comments.
-8. Search tasks and view dashboard.
+5. Open [http://127.0.0.1:8000/](http://127.0.0.1:8000/). Register a user with the `project_manager` role, then copy the verification token from `storage/logs/mail.log` and enter it in the Verify Email form. After verifying and logging in, create a project and add tasks to its board.
 
-## Security Notes
+## Project structure
 
-- Passwords are hashed with `password_hash`.
-- SQL uses prepared statements.
-- JWT signature uses HMAC SHA-256.
-- Basic secure headers are returned on JSON responses.
+| Path | Purpose |
+| --- | --- |
+| [`app/Controllers/`](app/Controllers/) | API request handlers |
+| [`app/Models/`](app/Models/) | Database access |
+| [`app/Services/`](app/Services/) | JWT, local mail logging, and activity logging |
+| [`app/Core/`](app/Core/) | Routing and database connection |
+| [`public/`](public/) | Browser interface, assets, and API entry point |
+| [`database/schema.sql`](database/schema.sql) | MySQL/MariaDB table definitions |
+| [`config/app.php`](config/app.php) | Application and database settings |
 
-## Beginner Notes
+For API routes and request handling, see [`public/api.php`](public/api.php).
 
-Code intentionally favors readability over advanced abstraction.
-"Enterprise architecture" can wait until we survive week 2.
+## Help and contributions
+
+For questions or bug reports, [open an issue](https://github.com/VoidLance/course-files-php-taskmanagementsystem/issues). Contributions are welcome: please discuss larger changes in an issue first, then submit a focused pull request with a description of what you tested. There is no separate `CONTRIBUTING.md` at this time.
+
+The repository is maintained by [@VoidLance](https://github.com/VoidLance). No `LICENSE` file is currently included; check with the maintainer before redistributing or reusing the project.
